@@ -1,0 +1,61 @@
+﻿@model AdvertisementApp.UI.Models.User.UserCreateModel
+@{
+    ViewData["Title"] = "Register";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    #registerForm {
+        margin-top: 125px;
+        margin-bottom: 320px;
+        background-color: #fafafa;
+        box-shadow: 0 2px 8px rgb(0, 0, 0, 0.4);
+        padding: 20px;
+    }
+</style>
+<div id="registerForm" class="container">
+    <form asp-controller="UserAccount" asp-action="Register" method="post" class="p-4 w-75 mx-auto">
+        <h4 class="text-center mb-4 mt-2">KAYIT OL</h4>
+        <div id="validation" class="alert bg-transparent mb-3 mt-3 text-danger text-decoration-none list-group" role="alert" asp-validation-summary="All">
+
+        </div>
+        <div class="row">
+            <div class="mb-3 col-6">
+                <label class="form-label">Adınız</label>
+                <input class="form-control" asp-for="FirstName" />
+            </div>
+            <div class="mb-3 col-6">
+                <label class="form-label">Soyadınız</label>
+                <input class="form-control" asp-for="LastName" />
+            </div>
+            <div class="mb-3">
+                <select class="form-select" asp-items="@Model.Genders" asp-for="GenderId">
+                    <option value="0">Cinsiyet Seçiniz</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Telefon Numaranız</label>
+                <input class="form-control" asp-for="PhoneNumber" />
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Kullanıcı Adınız</label>
+                <input class="form-control" asp-for="UserName" />
+            </div>
+            <div class="mb-3 col-6">
+                <label class="form-label">Şifreniz</label>
+                <input type="password" class="form-control" asp-for="Password" />
+            </div>
+
+            <div class="mb-3 col-6">
+                <label class="form-label">Şireniz Tekrar</label>
+                <input type="password" class="form-control" asp-for="ConfirmPassword" />
+            </div>
+            <div class="">
+                <button class="btn btn-success" type="submit">Kayıt ol</button>
+                <button class="btn btn-danger" asp-controller="Services" asp-action="Index" type="submit">Vazgeç</button>
+            </div>
+        </div>
+    </form>
+</div>
+

@@ -1,0 +1,38 @@
+﻿@model UserLoginDto
+@{
+    ViewData["Title"] = "Login";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<style>
+    #loginFrom {
+        margin-top: 200px;
+        margin-bottom: 320px;
+        background-color: #fafafa;
+        box-shadow: 0 2px 8px rgb(0, 0, 0, 0.4);
+        padding: 20px;
+    }
+</style>
+<div id="loginFrom" class="container">
+    <form asp-controller="UserAccount" asp-action="Login" method="post">
+        <h4 class="text-center mb-2 mt-2">GİRİŞ YAP</h4>
+        <div id="validation" class="alert bg-transparent mb-1 mt-3 text-danger text-decoration-none list-group" role="alert" asp-validation-summary="All">
+
+        </div>
+        <div class="form-group mb-3">
+            <input class="form-control" id="exampleInputEmail1" asp-for="UserName" required aria-describedby="emailHelp" placeholder="Kullanıcı Adınız">
+        </div>
+        <div class="form-group mb-3">
+            <input type="password" class="form-control" id="exampleInputPassword1" asp-for="Password" required placeholder="Şifreniz">
+        </div>
+        <div class="form-group form-check mb-3">
+            <input type="checkbox" class="form-check-input" asp-for="RememberMe" id="exampleCheck1">
+            <label class="form-check-label" for="exampleCheck1">Beni Hatırla</label>
+        </div>
+        <button type="submit" class="btn btn-outline-success">Giriş Yap</button>
+        <button asp-controller="UserAccount" asp-action="Register" type="submit" class="btn btn-outline-warning">Kayıt Ol</button>
+    </form>
+</div>
+
+

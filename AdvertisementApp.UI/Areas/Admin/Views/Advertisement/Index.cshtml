@@ -1,0 +1,48 @@
+﻿@model IEnumerable<AdvertisementListDto>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<div class="card p-2">
+    <h4 class="text-center mt-5 mt-5">Advertisements Information</h4>
+    <div class="container mt-5 card p-2">
+        <div class="row">
+            <div class="col-4">
+                <label class="form-label" style="font-weight: bold">Number Of Advertisements : </label>  <i class="badge bg-info" style="border-radius:50%">@Model.Count()</i>
+            </div>
+            <div class="col-4">
+                <label class="form-label" style="font-weight: bold">Number Of Advertisements(Active) : </label>  <i class="badge bg-success" style="border-radius:50%">@Model.Count(x=> x.Status == true)</i>
+            </div>
+            <div class="col-4">
+                <label class="form-label" style="font-weight: bold">Number Of Advertisements(Passive) : </label>  <i class="badge bg-danger" style="border-radius:50%">@ViewBag.advertisementPassiveDataCount</i>
+            </div>
+        </div>
+    </div>
+    <div class="mb-2 mt-2">
+        <a asp-action="Create" asp-controller="Advertisement" asp-area="Admin" class="btn btn-outline-success" style="float:left">Add New Advertisement</a>
+    </div>
+    <table class="table table-bordered table-hover mt-1 mb-5">
+        <tr>
+            <th>#</th>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Created Date</th>
+            <th></th>
+        </tr>
+        @foreach (var item in Model.OrderByDescending(x=> x.CreatedDate))
+        {
+            <tr>
+                <th>@item.Id</th>
+                <td>@item.Title</td>
+                <td>@Html.Raw(item.Description.Substring(0, 10))<span>...</span></td>
+                <td>@item.CreatedDate</td>
+                <td>
+                    <a asp-area="Admin" asp-action="AdvertisementApplications" asp-controller="Advertisement" asp-route-advertisementId="@item.Id" class="btn btn-primary btn-sm">Show Applications</a>
+                    <a asp-area="Admin" asp-action="AdvertisementApplications" asp-controller="Advertisement" class="btn btn-warning btn-sm">Details</a>
+                    <a asp-area="Admin" asp-action="Delete" asp-controller="Advertisement" asp-route-id="@item.Id"  onclick="return confirm('Wanna Delete This?')" class="btn btn-danger btn-sm">Delete</a>
+                </td>
+            </tr>
+        }
+    </table>
+</div>

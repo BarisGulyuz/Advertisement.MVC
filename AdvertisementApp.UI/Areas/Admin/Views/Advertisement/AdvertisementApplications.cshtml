@@ -1,0 +1,115 @@
+﻿@model IEnumerable<AdvertisementUserListDto>
+@{
+    ViewData["Title"] = "AdvertisementApplications";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+
+
+@{
+    if (Model.Count() > 0)
+    {
+        @*<button class="btn btn-success mb-3" id="showApp">Show Applications</button>*@
+<div id="advertisementApplications" class="card p-2">
+    <h4 class="text-center mb-5 mt-5">@ViewBag.AdvertisementTitle Advertisement Applications Information </h4>
+    <div class="container mt-4 card p-2">
+        <div class="row">
+            <div class="col-4">
+                <label class="form-label" style="font-weight: bold">Number Of Applications : </label>  <i class="badge bg-info" style="border-radius:50%">@Model.Count()</i>
+            </div>
+            <div class="col-4">
+                <label class="form-label" style="font-weight: bold">Number Of Applications(Interviews) : </label>  <i class="badge bg-success" style="border-radius:50%">@Model.Count(x => x.AdvetisementUserStatusId == (int)AdvertisementUserStatusType.MülakatSüreci)</i>
+            </div>
+            <div class="col-4">
+                <label class="form-label" style="font-weight: bold">Number Of Applications(Rejected) : </label>  <i class="badge bg-danger" style="border-radius:50%">@Model.Count((x => x.AdvetisementUserStatusId == (int)AdvertisementUserStatusType.Olumsuz)) </i>
+            </div>
+        </div>
+    </div>
+    <div class="mt-2">
+        <a asp-area="Admin" asp-action="ApplicationsStatusList" asp-route-statusId="@((int)AdvertisementUserStatusType.MülakatSüreci)" class="btn btn-success mb-3">Show Accepted Applications</a>
+        <a asp-area="Admin" asp-action="ApplicationsStatusList" asp-route-statusId="4" class="btn btn-danger mb-3">Show Rejected Applications</a>
+    </div>
+
+    <table class="table table-bordered table-hover mt-1 mb-5">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Advertisement</th>
+                <th>User</th>
+                <th>MilitaryStatus</th>
+                <th>End Date</th>
+                <th>Work Exprience</th>
+                <th>CV</th>
+                <th>Status</th>
+                <th></th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var item in Model)
+                        {
+                <tr>
+                    <td>@item.Id</td>
+                    <td>@item.Advertisement.Title</td>
+                    <td>@item.User.FirstName @item.User.LastName</td>
+                    <td>@item.MilitaryStatus.Description</td>
+                    <td>
+                        @{
+                                if (item.MilitaryStatusId == (int)MilitaryStatusType.Tecilli)
+                                {
+                                    @item.MilitaryEndDate.Value.ToShortDateString()
+                                }
+                                else
+                                {
+                                <span class="badge bg-success">DONE</span>
+                    }
+                }
+
+                    </td>
+                    <td>@item.WorkExperience</td>
+                    <td>
+                        <a class="btn btn-warning" href="file:///@item.CvPath" target="_blank" @*onclick="openCv('file:///@item.CvPath')"*@> CV</a>
+
+                    </td>
+                    <td>
+                        <span class="badge bg-info">@item.AdvertisementUserStatus.Description</span>
+                    </td>
+                    <td>
+                        <a asp-area="Admin" asp-controller="Advertisement" asp-action="SetStatus" asp-route-advertisementId="@item.Id" asp-route-advertisementUserStatusType="@((int)AdvertisementUserStatusType.MülakatSüreci)" class="btn btn-success btn-sm">Accept For Interviews</a>
+                        <a asp-area="Admin" asp-controller="Advertisement" asp-action="SetStatus" asp-route-advertisementId="@item.Id" asp-route-advertisementUserStatusType="@((int)AdvertisementUserStatusType.Olumsuz)" class="btn btn-danger btn-sm">Reject</a>
+                    </td>
+
+                </tr>
+            }
+        </tbody>
+
+    </table>
+</div>
+    }
+    else
+    {
+        <div class="alert alert-primary" role="alert">
+            There is no data for this Advertisement Applications
+        </div>
+    }
+
+}
+
+@*<script src="~/jquery/jquery.js"></script>
+    <script>
+
+        $(document).ready(function () {
+            $('#advertisementApplications').hide()
+        })
+        $('#showApp').click(function () {
+            $('#advertisementApplications').toggle(500)
+        })
+
+        //function openCv(cvAdress) {
+
+        //    window.location.replace(cvAdress)
+
+        //}
+    </script>*@
+
+

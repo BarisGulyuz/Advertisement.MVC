@@ -1,0 +1,58 @@
+﻿@model IEnumerable<AdvertisementUserListDto>
+@{
+    ViewData["Title"] = "UserApplications";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@*<style>
+    #applicataions {
+        margin-bottom: 1000px;
+    }
+</style*@>
+
+<div id="applicataions">
+    <h3 class="text-center mt-5">Başvurularım</h3>
+    <div class="container">
+        <div class="btn-group mb-2 mt-2">
+            <button id="all" class="btn btn-outline-info">Tüm Başvurular</button>
+            <button class="btn btn-outline-danger">Reddedilen Başvurularım</button>
+            <button class="btn btn-outline-success">Mülakat Sürecindei Başvurularım</button>
+        </div>
+    </div>
+    <div id="applicationsTable" class="container mt-5 p-2">
+        <div class="card p-3">
+            <table class="table table-bordered table-hover">
+                <tr>
+                    <th>İlan Adı</th>
+                    <th>Gönderilen CV</th>
+                    <th>Başvuru Durumu</th>
+                    <th></th>
+                </tr>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.Advertisement.Title</td>
+                        <td><a class="btn btn-warning" href="@item.CvPath">CV</a></td>
+                        <td><span class="badge bg-info">@item.AdvertisementUserStatus.Description</span></td>
+                        <td><a class="btn btn-light" asp-action="" asp-controller="">İlana Git</a></td>
+                    </tr>
+                }
+            </table>
+
+        </div>
+    </div>
+</div>
+
+
+<script src="~/jquery/jquery.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#applicationsTable').hide()
+    })
+
+    $('#all').click(function () {
+        $('#applicationsTable').fadeToggle(500)
+    })
+    
+</script>
+
+

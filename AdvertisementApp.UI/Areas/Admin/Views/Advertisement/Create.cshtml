@@ -1,0 +1,56 @@
+﻿@model AdvertisementCreateDto
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+@section css{
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Trumbowyg/2.25.1/ui/trumbowyg.min.css" integrity="sha512-nwpMzLYxfwDnu68Rt9PqLqgVtHkIJxEPrlu3PfTfLQKVgBAlTKDmim1JvCGNyNRtyvCx1nNIVBfYm8UZotWd4Q==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        #validation ul{
+            list-style-type: none;
+        }
+    </style>
+}
+<div id="validation" class="alert bg-transparent mb-1 mt-3 text-danger text-decoration-none list-group" role="alert" asp-validation-summary="All">
+
+</div>
+<div class="card p-3">
+    <div class="container-fluid">
+        <form asp-action="Create" asp-controller="Advertisement" asp-area="Admin" method="post">
+            <h4 class="text-center">Add New Advertisement</h4>
+            <div class="row">
+                <div class="mb-3">
+                    <label class="form-label">Title</label>
+                    <input asp-for="Title" required min="5" class="form-control" />
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Description</label>
+                    <textarea class="form-control" asp-for="Description"></textarea>
+                </div>
+                <div class="mb-3">
+                    <label class="form-check-label">Active</label>
+                    <input asp-for="Status" class="form-check-input" />
+                </div>
+                <div class="mb-3">
+                    <button type="submit" class="btn btn-success">SAVE</button>
+                    <button class="btn btn-danger">GO BACK</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+</div>
+@section script{
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="js/vendor/jquery-3.3.1.min.js"><\/script>')</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Trumbowyg/2.25.1/trumbowyg.min.js" integrity="sha512-t4CFex/T+ioTF5y0QZnCY9r5fkE8bMf9uoNH2HNSwsiTaMQMO0C9KbKPMvwWNdVaEO51nDL3pAzg4ydjWXaqbg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#Description').trumbowyg({
+                lang: 'tr'
+            });
+        })
+    </script>
+}

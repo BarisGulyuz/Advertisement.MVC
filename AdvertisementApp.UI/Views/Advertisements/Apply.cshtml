@@ -1,0 +1,85 @@
+﻿@model AdvertisementApp.UI.Models.Advertisement.AdvertisementApplyDto
+@{
+    ViewData["Title"] = "Apply";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    #applyForm {
+        background-color: #fafafa;
+        box-shadow: 0 2px 8px rgb(0, 0, 0, 0.4);
+        padding: 20px;
+    }
+</style>
+
+<form style="margin-bottom:200px; margin-top:100px" action="/Advertisements/Apply/" method="post" enctype="multipart/form-data">
+    <input hidden type="text" asp-for="AdvertisementId" />
+    <input hidden type="text" asp-for="UserId" />
+    <div id="applyForm" class="container mt-5">
+        <div id="validation" class="alert bg-transparent mb-1 mt-3 text-danger text-decoration-none list-group" role="alert" asp-validation-summary="All">
+
+        </div>
+        <div class="row">
+            <h5 class="text-center">@ViewBag.AdvertisementName Başvurusu Sayfası</h5>
+            @if (ViewBag.GenderId == (int)GenderType.Erkek)
+            {
+                <div id="militaryDiv" class="mb-3 col-12">
+                    <label class="form-label">Askerlik Durumu</label>
+                    <select onchange="setMilitaryVisibility()" asp-for="MilitaryStatusId" asp-items="@ViewBag.MilitaryStatusId" class="form-select"> </select>
+                </div>
+                <div id="endDateDiv" class="mb-3 col-6" style="display:none">
+                    <label class="form-label">Tecil Tarihi</label>
+                    <input type="date" asp-for="MilitaryEndDate" class="form-control" />
+                </div>
+            }
+            else
+            {
+                <input type="hidden" asp-for="MilitaryStatusId" value="@((int)MilitaryStatusType.Muaf))" />
+            }
+            <div class="mb-3">
+                <label class="form-label">İş Deneyiminiz</label>
+                <input type="number" asp-for="WorkExperience" class="form-control" required />
+            </div>
+            <div class="mb-3">
+                <label class="form-label">CV - Özgeçmiş</label>
+                <input type="file" asp-for="CvPath" class="form-control" required />
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Eklemek İstediğiniz Diğer Bilgiler</label>
+                <textarea class="form-control" style="height: 100px"></textarea>
+            </div>
+            <div class="mb-3">
+                <button onclick="return confirm("@ViewBag.AdvertisementName İlanına başvurmak istiyor musunuz?")" type="submit" class="btn btn-success">Başvur</button>
+                <a asp-controller="Advertisements" asp-action="Index" type="submit" class="btn btn-warning">İlan Sayfasına Dön</a>
+            </div>
+        </div>
+    </div>
+</form>
+
+@section script{
+    <script src="~/jquery/jquery.js"></script>
+    <script type="text/javascript">
+        setMilitaryVisibility()
+        function setMilitaryVisibility() {
+
+
+            let militaryStatusSelect = document.getElementById('MilitaryStatusId')
+            let dateDiv = document.getElementById('endDateDiv')
+            let militaryDiv = document.getElementById('militaryDiv')
+
+            let militaryStatusId = militaryStatusSelect.value
+
+            if (militaryStatusId == 3) {
+                dateDiv.style.display = "block"
+                dateDiv.attributes.required = true
+                militaryDiv.className = "mb-3 col-6"
+
+            }
+            else {
+                dateDiv.style.display = "none"
+                militaryDiv.className = "mb-3 col-12"
+            }
+        }
+    </script>
+
+}
